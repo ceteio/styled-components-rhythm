@@ -1,0 +1,28 @@
+{
+  "name": "@ceteio/styled-components-rhythm",
+  "version": "0.0.0",
+  "description": "Vertical Rhythm and Font Baselines with Styled Components",
+  "main": "dist/index.js",
+  "umd:main": "index.umd.js",
+  "module": "index.m.js",
+  "source": "src/index.js",
+  "scripts": {
+    "test": "echo \"No test specified\" && exit 0",
+    "build": "microbundle",
+    "dev": "microbundle watch",
+    "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
+  },
+  "keywords": [
+    "styled-components",
+    "design",
+    "vertical rhythm",
+    "font"
+  ],
+  "author": "Jess Telford <jess@cete.io>",
+  "license": "ISC",
+  "devDependencies": {
+    "changelog-verify": "^1.1.0",
+    "microbundle": "^0.4.4",
+    "version-changelog": "^3.1.0"
+  }
+}
