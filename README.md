@@ -1,19 +1,33 @@
-# Styled Components Rhythm
+<p align="center">
+  <img src="./img/rhythm-12px.png" height="386">
+  <p align="center"><i>12px vertical rhythm with correctly aligned baselines</i><p>
+  <h1 align="center">Styled Components Rhythm</h1>
+  <p align="center">Beautifully aligned type with Styled Components<p>
+</p>
 
-A utility for correctly setting vertical rhythm and aligning text to a baseline
-beyond what CSS can provide.
+## Installation
+
+```
+npm i @ceteio/styled-components-rhythm
+```
+or, with yarn:
+
+```
+yarn add @ceteio/styled-components-rhythm
+```
 
 ## Usage
 
 ```javascript
 import { ThemeProvider, injectGLobal }, styled from 'styled-components';
-import styledComponentsRhythm from 'styled-components-rhythm';
+import styledComponentsRhythm from '@ceteio/styled-components-rhythm';
 
 const rhythm = styledComponentsRhythm({
   baseFontSize: 16,
   baseLineHeight: 1.2,
   rhythmHeight: 12,
   capHeights: {
+    // Calculated with https://codepen.io/sebdesign/pen/EKmbGL?editors=0011
     Lato: 0.72,
   },
   debug: true,
@@ -46,80 +60,85 @@ export default () => (
   <ThemeProvider theme={rhythm.theme}>
     <H1>Hello world</H1>
     <Paragraph>How are you today?</Paragraph>
-    <Paragraph>I'm feeling quite <em>aligned</em>!</Paragraph>
+    <Paragraph>Feeling quite <em>aligned</em>!</Paragraph>
   </ThemeProvider>
 );
 ```
 
 ## API
 
-Main export is a single function:
+### Creating Rhythm
 
-### `styledComponentsRhythm(<Object: options>) => <Object: rhythm>`
-
-#### `options`
-
-##### `options.baseFontSize` (`Number`)
-
-The `px` font size of your root element (ie; the `<body>`).
-
-##### `options.rhythmHeight` (`Number`)
-
-The vertical grid size, to which text will have its baseline aligned.
-
-Works best when it divides evenly into (`baseFontSize` * `lineHeight`).
-
-##### `options.capHeights` (`Object<fontName: Number>`)
-
-The height of capital letters for each font in use.
-
-For example:
+The main export is a function which returns a rhythm object suitable for
+adding to a Styled Components `<ThemeProvider>`:
 
 ```javascript
-{
-  Lato: 0.72,
-}
+import styledComponentsRhythm from '@ceteio/styled-components-rhythm';
+
+const rhythm = styledComponentsRhythm(options);
+// { theme: ..., global: ... }
 ```
 
-The key should match the full font name you would pass to a `font-family`
-declaration.
+#### `options` (`Object`)
 
-Calculate with a tool like https://codepen.io/sebdesign/pen/EKmbGL?editors=0011
+- `baseFontSize` (`Number`): The `px` font size of your root element (ie; the `<body>`).
+- `rhythmHeight` (`Number`): The vertical grid size, to which text will have its baseline aligned. Works best when it divides evenly into (`baseFontSize` * `lineHeight`).
+- `capHeights` (`Object`): Map of `font-family` font name -> proportional height of capital letters. Heights can be calculated with [this tool](https://codepen.io/sebdesign/pen/EKmbGL?editors=0011).
+  For example:
+  ```javascript
+  {
+    Lato: 0.72,
+  }
+  ```
+- `defaultLineHeight` (`String`): Default for `setFontWithRhythm()` below. Must be a unitless value, which will be [relative to the font size of an element](https://css-tricks.com/almanac/properties/l/line-height/#comment-1587658).
+- `debug` (`Boolean`): Will inject red horizontal lines to body for visually debugging alignments.
 
-##### `options.defaultLineHeight` (`String`)
+### Setting the theme
 
-When generating CSS properties, if `line-height` is not set, it will use this
-value.
-
-Must be a unitless value, which will be relative to the font size of an element.
-For more details on unitless line heights, see
-[this comment](https://css-tricks.com/almanac/properties/l/line-height/#comment-1587658).
-
-##### `options.debug` (`Boolean`)
-
-Will inject horizontal lines to body for visually debugging alignments.
-
-#### `rhythm`
-
-##### `rhythm.theme` (`Object`)
-
-Pass this object to a styled-components `ThemeProvider` as the theme:
+There are two pieces to the puzzle, both of which must be used to have effective
+vertical rhythm; `rhythm.theme`, and `rhythm.global`:
 
 ```javascript
-return (
-  <ThemeProvider theme={rhythm.theme}>
-    ...
-  </ThemeProvider>
-);
+import styledComponentsRhythm from '@ceteio/styled-components-rhythm';
+import { injectGlobal, ThemeProvider } from 'styled-components';
+
+const rhythm = styledComponentsRhythm(options);
+
+injectGlobal`${rhythm.global}`;
+return <ThemeProvider theme={rhythm.theme}>...</ThemeProvider>;
 ```
 
-It provides:
+#### `theme` (`Object`)
 
-###### `rhythmHeight`
+Pass this object to a Styled Components `ThemeProvider` as the [theme](https://www.styled-components.com/docs/advanced#theming):
+
+```javascript
+const rhythm = styledComponentsRhythm(options);
+
+return <ThemeProvider theme={rhythm.theme}>...</ThemeProvider>;
+```
+
+#### `global` (`String`)
+
+A string containing global CSS that needs to be applied. Best done using
+styled-component's `injectGlobal`:
+
+```javascript
+const rhythm = styledComponentsRhythm(options);
+
+injectGlobal`${rhythm.global}`;
+```
+
+### Using the theme values
+
+You now have access to the following via the `theme` prop within a styled
+component:
+
+#### `rhythmHeight`
 
 The value as passed when creating the theme object.
 
-###### `setFontWithRhythm(fontName, fontSizeRem, desiredLineHeight) => String`
+#### `setFontWithRhythm(fontName, fontSizeRem, desiredLineHeight) => String`
 
 The main function which will generate the CSS necessary to correctly align the
 font to a rhythm baseline.
@@ -132,10 +151,10 @@ This function makes 2 assumptions:
 
 **Parameters**
 
-- **`fontName`** Should match the font name as you would declare it in the CSS
-  property `font-family`.
-- **`fontSizeRem`** A multiple of `baseFontSize`.
-- **`desiredLineHeight`** Will be rounded to the nearest rhythm line so you
+- `fontName` (`String`): Should match the font name as you would declare it in the CSS
+  operty `font-family`.
+- `fontSizeRem` (`Number`): A multiple of `baseFontSize`.
+- `desiredLineHeight` (`Number`): Will be rounded to the nearest rhythm line so you
   don't have to worry.
 
 The output is the CSS string to add to the component:
@@ -146,23 +165,13 @@ const H1 = styled.h1`
 `;
 ```
 
-###### `rhythmSizing(multiple) => Number`
+#### `rhythmSizing(multiple) => Number`
 
 A simple helper to calculate `multiple * rhythmHeight`.
 
 Works great for setting margins or padding:
 
+```javascript
 const H1 = styled.h1`
   margin-top: ${props => props.theme.rhythmSizing(3)}px;
 `;
-
-##### `rhythm.global` (`String`)
-
-A string containing global CSS that needs to be applied. Best done using
-styled-component's `injectGlobal`:
-
-```javascript
-injectGlobal`
-  ${rhythm.global}
-`;
-```
