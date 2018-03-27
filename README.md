@@ -23,9 +23,9 @@ import { ThemeProvider, injectGLobal }, styled from 'styled-components';
 import styledComponentsRhythm from '@ceteio/styled-components-rhythm';
 
 const rhythm = styledComponentsRhythm({
-  baseFontSize: 16,
-  baseLineHeight: 1.2,
-  rhythmHeight: 12,
+  baseFontSize: 1, // 1rem. Browser default makes this 16px
+  baseLineHeight: 1.2, // unitless line-height, see: https://css-tricks.com/almanac/properties/l/line-height/#comment-1587658
+  rhythmHeight: 0.75, // rem units. With browser default, this is 16px * 0.75rem == 12px
   capHeights: {
     // Calculated with https://codepen.io/sebdesign/pen/EKmbGL?editors=0011
     Lato: 0.72,
@@ -48,12 +48,12 @@ injectGLobal`
 
 const H1 = styled.h1`
   ${props => props.theme.setFontWithRhythm('Lato', 3)}
-  margin-top: ${props => props.theme.rhythmSizing(3)}px;
+  margin-top: ${props => props.theme.rhythmSizing(3)}rem;
 `;
 
 const Paragraph = styled.p`
   ${props => props.theme.setFontWithRhythm('Lato', 1)}
-  margin-top: ${props => props.theme.rhythmSizing(2)}px;
+  margin-top: ${props => props.theme.rhythmSizing(2)}rem;
 `;
 
 export default () => (
@@ -81,8 +81,8 @@ const rhythm = styledComponentsRhythm(options);
 
 #### `options` (`Object`)
 
-- `baseFontSize` (`Number`): The `px` font size of your root element (ie; the `<body>`).
-- `rhythmHeight` (`Number`): The vertical grid size, to which text will have its baseline aligned. Works best when it divides evenly into (`baseFontSize` * `lineHeight`).
+- `baseFontSize` (`Number`): The `rem` font size of your root element (ie; the `<body>`).
+- `rhythmHeight` (`Number`): The `rem` vertical grid size, to which text will have its baseline aligned. Works best when it divides evenly into (`baseFontSize` * `defaultLineHeight`).
 - `capHeights` (`Object`): Map of `font-family` font name -> proportional height of capital letters. Heights can be calculated with [this tool](https://codepen.io/sebdesign/pen/EKmbGL?editors=0011).
   For example:
   ```javascript
@@ -90,7 +90,7 @@ const rhythm = styledComponentsRhythm(options);
     Lato: 0.72,
   }
   ```
-- `defaultLineHeight` (`String`): Default for `setFontWithRhythm()` below. Must be a unitless value, which will be [relative to the font size of an element](https://css-tricks.com/almanac/properties/l/line-height/#comment-1587658).
+- `defaultLineHeight` (`Number`): Default for `setFontWithRhythm()` below. Must be a unitless value, which will be [relative to the font size of an element](https://css-tricks.com/almanac/properties/l/line-height/#comment-1587658).
 - `debug` (`Boolean`): Will inject red horizontal lines to body for visually debugging alignments.
 
 ### Setting the theme
@@ -152,7 +152,7 @@ This function makes 2 assumptions:
 **Parameters**
 
 - `fontName` (`String`): Should match the font name as you would declare it in the CSS
-  operty `font-family`.
+  property `font-family`.
 - `fontSizeRem` (`Number`): A multiple of `baseFontSize`.
 - `desiredLineHeight` (`Number`): Will be rounded to the nearest rhythm line so you
   don't have to worry.
@@ -173,5 +173,5 @@ Works great for setting margins or padding:
 
 ```javascript
 const H1 = styled.h1`
-  margin-top: ${props => props.theme.rhythmSizing(3)}px;
+  margin-top: ${props => props.theme.rhythmSizing(3)}rem;
 `;

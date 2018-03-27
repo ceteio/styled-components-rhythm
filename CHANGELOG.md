@@ -2,6 +2,7 @@
 
 ## [Unreleased][]
 
+- All units are `rem`, playing nicely with zoomed text in browsers
 - Better README.md
 
 ## [1.0.0][] - 2018-03-23

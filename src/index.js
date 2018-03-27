@@ -11,19 +11,25 @@ export default function({
 
   function rhythmShift(font, lineHeight, fontSize = baseFontSize) {
     const capHeight = capHeights[font];
-    return Math.round(((lineHeight - capHeight) * fontSize) / 2);
+    return ((lineHeight - capHeight) * fontSize) / 2;
   }
 
   function roundToMultiple(value, multiple, direction = 'nearest') {
-    const rounded = Math.round(value / multiple) * multiple;
+    const remainder = value % multiple;
 
-    if (direction === 'up' && rounded < value) {
-      return rounded + multiple;
-    } else if (direction === 'down' && rounded > value) {
-      return rounded - multiple;
+    if (direction === 'up') {
+      // force rounding up
+      return value - remainder + multiple;
+    } else if (direction === 'down') {
+      // force rounding down
+      return value - remainder;
+    } else if (remainder >= multiple / 2) {
+      // round up on exactly half or above
+      return value - remainder + multiple;
+    } else {
+      // round down on less than half
+      return value - remainder;
     }
-
-    return rounded;
   }
 
   function rhythmLineHeight(font, fontSizeRem, desiredLineHeight = defaultLineHeight) {
@@ -31,13 +37,14 @@ export default function({
 
     // The calculated line height
     const desiredHeight = baseFontSize * fontSizeRem * desiredLineHeight;
+    const capHeightRem = baseFontSize * fontSizeRem * capHeight;
 
     // Rounded to the nearest rhythm line
     let roundedHeight = roundToMultiple(desiredHeight, rhythmHeight);
 
     // Disallow line heights below the cap height
-    if (roundedHeight < capHeight) {
-      roundedHeight = roundToMultiple(capHeight, rhythmHeight, 'up');
+    if (roundedHeight < capHeightRem) {
+      roundedHeight = roundToMultiple(capHeightRem, rhythmHeight, 'up');
     }
 
     // convert back to a value relative to the font size rem
@@ -54,8 +61,8 @@ export default function({
         return `
           font-family: ${fontName};
           font-size: ${fontSizeRem}rem;
-          padding-top: ${shift}px;
-          margin-bottom: -${shift}px;
+          padding-top: ${shift}rem;
+          margin-bottom: -${shift}rem;
           /* Unitless so it's relative to the calculated font size of the element */
           /* https://css-tricks.com/almanac/properties/l/line-height/#comment-1587658 */
           line-height: ${lineHeight};
@@ -70,13 +77,13 @@ export default function({
       ${debug ? `
         html {
           background: linear-gradient(rgba(255, 0, 0, 0.15), rgba(255, 0, 0, 0.15) 1px, transparent 1px);
-          background-size: 1px ${rhythmHeight}px;
+          background-size: 1px ${rhythmHeight}rem;
         }
       ` : ''}
 
       /* Specify our global font size */
       body {
-        font-size: ${baseFontSize / 16 * 100}%;
+        font-size: ${baseFontSize * 100}%;
       }
     `,
   };
