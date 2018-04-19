@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [2.0.1][] - 2018-04-19
+
 - Remove floating point rounding issues for lineheight calculations
 
 ## [2.0.0][] - 2018-03-28
@@ -14,6 +16,7 @@
 - Initial version
 
 
-[Unreleased]: https://github.com/ceteio/styled-components-rhythm/compare/v2.0.0...HEAD
+[Unreleased]: https://github.com/ceteio/styled-components-rhythm/compare/v2.0.1...HEAD
+[2.0.1]: https://github.com/ceteio/styled-components-rhythm/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ceteio/styled-components-rhythm/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/ceteio/styled-components-rhythm/tree/v1.0.0
