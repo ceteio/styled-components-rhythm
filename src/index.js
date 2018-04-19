@@ -9,46 +9,47 @@ export default function({
   debug = false,
 }) {
 
-  function rhythmShift(font, lineHeight, fontSize = baseFontSize) {
-    const capHeight = capHeights[font];
-    return ((lineHeight - capHeight) * fontSize) / 2;
+  function rhythmShift(font, lineHeightRem, fontSizeRem = baseFontSize) {
+    const capHeightFraction = capHeights[font];
+    const capHeight = fontSizeRem * capHeightFraction;
+
+    return (lineHeightRem - capHeight) / 2;
   }
 
   function roundToMultiple(value, multiple, direction = 'nearest') {
-    const remainder = value % multiple;
+    const valueRoundedDown = Math.floor(value / multiple) * multiple;
 
-    if (direction === 'up') {
+    // purposely avoiding floating point and division
+    const isHalfOrOver = (value - valueRoundedDown) * 2 >= multiple;
+
+    if (direction === 'up' || (direction == 'nearest' && isHalfOrOver)) {
       // force rounding up
-      return value - remainder + multiple;
-    } else if (direction === 'down') {
-      // force rounding down
-      return value - remainder;
-    } else if (remainder >= multiple / 2) {
-      // round up on exactly half or above
-      return value - remainder + multiple;
+      return valueRoundedDown + multiple;
     } else {
-      // round down on less than half
-      return value - remainder;
+      // force rounding down
+      return valueRoundedDown;
     }
   }
 
   function rhythmLineHeight(font, fontSizeRem, desiredLineHeight = defaultLineHeight) {
     const capHeight = capHeights[font];
 
-    // The calculated line height
-    const desiredHeight = baseFontSize * fontSizeRem * desiredLineHeight;
-    const capHeightRem = baseFontSize * fontSizeRem * capHeight;
+    const baseFontSizePx = baseFontSize * 16;
+    const fontSizePx = fontSizeRem * baseFontSizePx;
+    const desiredHeightPx = desiredLineHeight * fontSizePx;
+    const capHeightPx = capHeight * fontSizePx;
+    const rhythmHeightPx = rhythmHeight * baseFontSizePx;
 
     // Rounded to the nearest rhythm line
-    let roundedHeight = roundToMultiple(desiredHeight, rhythmHeight);
+    let roundedHeightPx = roundToMultiple(desiredHeightPx, rhythmHeightPx);
 
     // Disallow line heights below the cap height
-    if (roundedHeight < capHeightRem) {
-      roundedHeight = roundToMultiple(capHeightRem, rhythmHeight, 'up');
+    if (roundedHeightPx < capHeightPx) {
+      roundedHeightPx = roundToMultiple(capHeightPx, rhythmHeightPx, 'up');
     }
 
     // convert back to a value relative to the font size rem
-    return roundedHeight / baseFontSize / fontSizeRem;
+    return roundedHeightPx / baseFontSizePx;
   }
 
   return {
@@ -63,9 +64,7 @@ export default function({
           font-size: ${fontSizeRem}rem;
           padding-top: ${shift}rem;
           margin-bottom: -${shift}rem;
-          /* Unitless so it's relative to the calculated font size of the element */
-          /* https://css-tricks.com/almanac/properties/l/line-height/#comment-1587658 */
-          line-height: ${lineHeight};
+          line-height: ${lineHeight}rem;
         `;
       },
 

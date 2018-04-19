@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+- Remove floating point rounding issues for lineheight calculations
+
 ## [2.0.0][] - 2018-03-28
 
 - All units are `rem`, playing nicely with zoomed text in browsers
