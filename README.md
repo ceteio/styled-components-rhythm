@@ -175,3 +175,9 @@ Works great for setting margins or padding:
 const H1 = styled.h1`
   margin-top: ${props => props.theme.rhythmSizing(3)}rem;
 `;
+```
+
+## Related Projects
+
+- [`basekick`](https://github.com/michaeltaranto/basekick) by [Michael Taranto](https://mobile.twitter.com/michaeltaranto) is another implementation of the same thing, targeted at LESS.
+- https://www.w3.org/TR/css-rhythm-1/ is a proposal to support vertical rhythm directly in CSS.
