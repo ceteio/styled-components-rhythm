@@ -180,4 +180,5 @@ const H1 = styled.h1`
 ## Related Projects
 
 - [`basekick`](https://github.com/michaeltaranto/basekick) by [Michael Taranto](https://mobile.twitter.com/michaeltaranto) is another implementation of the same thing, targeted at LESS.
+- [`tailwind-vertical-rhythm`](https://github.com/juliekoubova/tailwind-vertical-rhythm) is the same thing for [tailwind.css](https://tailwindcss.com)
 - https://www.w3.org/TR/css-rhythm-1/ is a proposal to support vertical rhythm directly in CSS.
