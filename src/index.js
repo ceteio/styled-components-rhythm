@@ -54,7 +54,12 @@ export default function({
 
   return {
     theme: {
-      rhythmHeight,
+      rhythm: {
+        baseFontSize,
+        defaultLineHeight,
+        rhythmHeight,
+        capHeights,
+      },
       setFontWithRhythm(fontName, fontSizeRem, desiredLineHeight = defaultLineHeight, outputType = 'string') {
         const lineHeight = rhythmLineHeight(fontName, fontSizeRem, desiredLineHeight);
         const shift = rhythmShift(fontName, lineHeight, fontSizeRem * baseFontSize);
