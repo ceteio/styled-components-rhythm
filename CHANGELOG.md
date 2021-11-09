@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+- Add `defaultOutputType` to main rhythm creation function.
+
 ## [4.0.0][] - 2021-11-09
 
 - Replace `theme.rhythmHeight` return value with `theme.rhythm.X`, where `.X` is

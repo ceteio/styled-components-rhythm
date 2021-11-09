@@ -92,6 +92,7 @@ const rhythm = styledComponentsRhythm(options);
   ```
 - `defaultLineHeight` (`Number`): Default for `setFontWithRhythm()` below. Must be a unitless value, which will be [relative to the font size of an element](https://css-tricks.com/almanac/properties/l/line-height/#comment-1587658).
 - `debug` (`Boolean`): Will inject red horizontal lines to body for visually debugging alignments.
+- `defaultOutputType` (`String`): Set the output type of `setFontWithRhythm()` & `global()`. `'string'`: Return a css string . `'object'`: Return a css style object. Default: `'string'`.
 
 ### Setting the theme
 
@@ -138,7 +139,7 @@ or Emotion's `<Global>` component:
 **Parameters**
 
 - `outputType` (`String`): `'string'`: Return a css string. `'object'`: Return a
-  css style object. Default: `'string'`.
+  css style object. Default: the value of `defaultOutputType`.
 
 ### Using the theme values
 
@@ -168,7 +169,7 @@ This function makes 2 assumptions:
 - `desiredLineHeight` (`Number`): Will be rounded to the nearest rhythm line so you
   don't have to worry.
 - `outputType` (`String`): `'string'`: Return a css string. `'object'`: Return a
-  css style object. Default: `'string'`.
+  css style object. Default: the value of `defaultOutputType`.
 
 The output is the CSS string to add to the component:
 
