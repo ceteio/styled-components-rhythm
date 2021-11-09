@@ -43,7 +43,7 @@ injectGLobal`
   /* Using Lato font https://fonts.google.com/specimen/Lato */
   @import url('https://fonts.googleapis.com/css?family=Lato')
 
-  ${rhythm.global}
+  ${rhythm.global()}
 `;
 
 const H1 = styled.h1`
@@ -104,7 +104,7 @@ import { injectGlobal, ThemeProvider } from 'styled-components';
 
 const rhythm = styledComponentsRhythm(options);
 
-injectGlobal`${rhythm.global}`;
+injectGlobal`${rhythm.global()}`;
 return <ThemeProvider theme={rhythm.theme}>...</ThemeProvider>;
 ```
 
@@ -118,7 +118,7 @@ const rhythm = styledComponentsRhythm(options);
 return <ThemeProvider theme={rhythm.theme}>...</ThemeProvider>;
 ```
 
-#### `global` (`String`)
+#### `global([outputType]) => String`
 
 A string containing global CSS that needs to be applied. Best done using
 styled-component's `injectGlobal`:
@@ -126,8 +126,19 @@ styled-component's `injectGlobal`:
 ```javascript
 const rhythm = styledComponentsRhythm(options);
 
-injectGlobal`${rhythm.global}`;
+injectGlobal`${rhythm.global()}`;
 ```
+
+or Emotion's `<Global>` component:
+
+```javascript
+<Global styles={rhythm.global('object')} />
+```
+
+**Parameters**
+
+- `outputType` (`String`): `'string'`: Return a css string. `'object'`: Return a
+  css style object. Default: `'string'`.
 
 ### Using the theme values
 
@@ -138,7 +149,7 @@ component:
 
 The value as passed when creating the theme object.
 
-#### `setFontWithRhythm(fontName, fontSizeRem, desiredLineHeight) => String`
+#### `setFontWithRhythm(fontName, fontSizeRem[, desiredLineHeight[, outputType]]) => String`
 
 The main function which will generate the CSS necessary to correctly align the
 font to a rhythm baseline.
@@ -156,6 +167,8 @@ This function makes 2 assumptions:
 - `fontSizeRem` (`Number`): A multiple of `baseFontSize`.
 - `desiredLineHeight` (`Number`): Will be rounded to the nearest rhythm line so you
   don't have to worry.
+- `outputType` (`String`): `'string'`: Return a css string. `'object'`: Return a
+  css style object. Default: `'string'`.
 
 The output is the CSS string to add to the component:
 
@@ -163,6 +176,14 @@ The output is the CSS string to add to the component:
 const H1 = styled.h1`
   ${props => props.theme.setFontWithRhythm('Lato', 3)}
 `;
+```
+
+Or as an object using the css prop (in both Styled Components & Emotion):
+
+```javascript
+const H1 = props => (
+  <h1 css={theme => theme.setFontWithRhythm('Lato', 3, 1, 'object')} />
+);
 ```
 
 #### `rhythmSizing(multiple) => Number`
@@ -179,5 +200,6 @@ const H1 = styled.h1`
 
 ## Related Projects
 
+- [`capsize`](https://seek-oss.github.io/capsize/) by Seek: _"Using font metadata, text can now be sized according to the height of its capital letters while trimming the space above capital letters and below the baseline."_
 - [`basekick`](https://github.com/michaeltaranto/basekick) by [Michael Taranto](https://mobile.twitter.com/michaeltaranto) is another implementation of the same thing, targeted at LESS.
 - https://www.w3.org/TR/css-rhythm-1/ is a proposal to support vertical rhythm directly in CSS.
