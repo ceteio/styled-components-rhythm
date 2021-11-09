@@ -2,6 +2,9 @@
 
 ## [Unreleased][]
 
+- Replace `theme.rhythmHeight` return value with `theme.rhythm.X`, where `.X` is
+  the config used to setup the rhythm theme.
+
 ## [3.0.0][] - 2021-11-09
 
 - Add `outputType` option to `setFontWithRhythm()` to optionally get object styles instead of string styles.
