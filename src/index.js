@@ -55,35 +55,59 @@ export default function({
   return {
     theme: {
       rhythmHeight,
-      setFontWithRhythm(fontName, fontSizeRem, desiredLineHeight) {
+      setFontWithRhythm(fontName, fontSizeRem, desiredLineHeight = defaultLineHeight, outputType = 'string') {
         const lineHeight = rhythmLineHeight(fontName, fontSizeRem, desiredLineHeight);
         const shift = rhythmShift(fontName, lineHeight, fontSizeRem * baseFontSize);
 
-        return `
-          font-family: ${fontName};
-          font-size: ${fontSizeRem}rem;
-          padding-top: ${shift}rem;
-          margin-bottom: -${shift}rem;
-          line-height: ${lineHeight}rem;
-        `;
+        if (outputType === 'object') {
+          return {
+            fontFamily: fontName,
+            fontSize: `${fontSizeRem}rem`,
+            paddingTop: `${shift}rem`,
+            marginBottom: `-${shift}rem`,
+            lineHeight: `${lineHeight}rem`
+          };
+        } else {
+          return `
+            font-family: ${fontName};
+            font-size: ${fontSizeRem}rem;
+            padding-top: ${shift}rem;
+            margin-bottom: -${shift}rem;
+            line-height: ${lineHeight}rem;
+          `;
+        }
       },
 
       rhythmSizing(multiple) {
         return rhythmHeight * multiple;
       },
     },
-    global: `
-      ${debug ? `
-        html {
-          background: linear-gradient(rgba(255, 0, 0, 0.15), rgba(255, 0, 0, 0.15) 1px, transparent 1px);
-          background-size: 1px ${rhythmHeight}rem;
-        }
-      ` : ''}
+    global(outputType = 'string') {
+      return outputType === 'object' ? {
+        ...(debug && {
+          html: {
+            background: 'linear-gradient(rgba(255, 0, 0, 0.15), rgba(255, 0, 0, 0.15) 1px, transparent 1px)',
+            backgroundSize: `1px ${rhythmHeight}rem`,
+          }
+        }),
 
-      /* Specify our global font size */
-      body {
-        font-size: ${baseFontSize * 100}%;
-      }
-    `,
+        /* Specify our global font size */
+        body: {
+          fontSize: `${baseFontSize * 100}%`,
+        }
+      } : `
+        ${debug ? `
+          html {
+            background: linear-gradient(rgba(255, 0, 0, 0.15), rgba(255, 0, 0, 0.15) 1px, transparent 1px);
+            background-size: 1px ${rhythmHeight}rem;
+          }
+        ` : ''}
+
+        /* Specify our global font size */
+        body {
+          font-size: ${baseFontSize * 100}%;
+        }
+      `,
+    },
   };
 }

@@ -2,6 +2,9 @@
 
 ## [Unreleased][]
 
+- Add `outputType` option to `setFontWithRhythm()` to optionally get object styles instead of string styles.
+- Add `global` is now a function: `global()` with a single option to get object styles instead of string styles.
+
 ## [2.0.1][] - 2018-04-19
 
 - Remove floating point rounding issues for lineheight calculations
