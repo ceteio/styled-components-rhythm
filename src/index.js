@@ -7,6 +7,7 @@ export default function({
   // Calculate with a tool like https://codepen.io/sebdesign/pen/EKmbGL?editors=0011
   capHeights,
   debug = false,
+  defaultOutputType = 'string',
 }) {
 
   function rhythmShift(font, lineHeightRem, fontSizeRem = baseFontSize) {
@@ -60,7 +61,7 @@ export default function({
         rhythmHeight,
         capHeights,
       },
-      setFontWithRhythm(fontName, fontSizeRem, desiredLineHeight = defaultLineHeight, outputType = 'string') {
+      setFontWithRhythm(fontName, fontSizeRem, desiredLineHeight = defaultLineHeight, outputType = defaultOutputType) {
         const lineHeight = rhythmLineHeight(fontName, fontSizeRem, desiredLineHeight);
         const shift = rhythmShift(fontName, lineHeight, fontSizeRem * baseFontSize);
 
@@ -87,7 +88,7 @@ export default function({
         return rhythmHeight * multiple;
       },
     },
-    global(outputType = 'string') {
+    global(outputType = defaultOutputType) {
       return outputType === 'object' ? {
         ...(debug && {
           html: {
