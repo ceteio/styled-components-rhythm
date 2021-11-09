@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [3.0.0][] - 2021-11-09
+
 - Add `outputType` option to `setFontWithRhythm()` to optionally get object styles instead of string styles.
 - Add `global` is now a function: `global()` with a single option to get object styles instead of string styles.
 
@@ -19,7 +21,8 @@
 - Initial version
 
 
-[Unreleased]: https://github.com/ceteio/styled-components-rhythm/compare/v2.0.1...HEAD
+[Unreleased]: https://github.com/ceteio/styled-components-rhythm/compare/v3.0.0...HEAD
+[3.0.0]: https://github.com/ceteio/styled-components-rhythm/compare/v2.0.1...v3.0.0
 [2.0.1]: https://github.com/ceteio/styled-components-rhythm/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/ceteio/styled-components-rhythm/compare/v1.0.0...v2.0.0
 [1.0.0]: https://github.com/ceteio/styled-components-rhythm/tree/v1.0.0
