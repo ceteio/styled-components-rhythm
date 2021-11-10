@@ -2,6 +2,8 @@
 
 ## [Unreleased][]
 
+## [4.1.1][] - 2021-11-10
+
 - Correctly publish built files
 
 ## [4.1.0][] - 2021-11-09
@@ -38,7 +40,8 @@ _Unpublished._
 - Initial version
 
 
-[Unreleased]: https://github.com/ceteio/styled-components-rhythm/compare/v4.1.0...HEAD
+[Unreleased]: https://github.com/ceteio/styled-components-rhythm/compare/v4.1.1...HEAD
+[4.1.1]: https://github.com/ceteio/styled-components-rhythm/compare/v4.1.0...v4.1.1
 [4.1.0]: https://github.com/ceteio/styled-components-rhythm/compare/v4.0.0...v4.1.0
 [4.0.0]: https://github.com/ceteio/styled-components-rhythm/compare/v3.0.0...v4.0.0
 [3.0.0]: https://github.com/ceteio/styled-components-rhythm/compare/v2.0.1...v3.0.0
