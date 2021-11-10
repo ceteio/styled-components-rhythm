@@ -89,31 +89,37 @@ export default function({
       },
     },
     global(outputType = defaultOutputType) {
-      return outputType === 'object' ? {
-        ...(debug && {
-          html: {
+      if (outputType === 'object') {
+        const styles = {
+          /* Specify our global font size */
+          body: {
+            fontSize: `${baseFontSize * 100}%`,
+          }
+        }
+
+        if (debug) {
+          styles.html = {
             background: 'linear-gradient(rgba(255, 0, 0, 0.15), rgba(255, 0, 0, 0.15) 1px, transparent 1px)',
             backgroundSize: `1px ${rhythmHeight}rem`,
-          }
-        }),
-
-        /* Specify our global font size */
-        body: {
-          fontSize: `${baseFontSize * 100}%`,
+          };
         }
-      } : `
-        ${debug ? `
-          html {
-            background: linear-gradient(rgba(255, 0, 0, 0.15), rgba(255, 0, 0, 0.15) 1px, transparent 1px);
-            background-size: 1px ${rhythmHeight}rem;
-          }
-        ` : ''}
 
-        /* Specify our global font size */
-        body {
-          font-size: ${baseFontSize * 100}%;
-        }
-      `,
+        return styles;
+      } else {
+        return `
+          ${debug ? `
+            html {
+              background: linear-gradient(rgba(255, 0, 0, 0.15), rgba(255, 0, 0, 0.15) 1px, transparent 1px);
+              background-size: 1px ${rhythmHeight}rem;
+            }
+          ` : ''}
+
+          /* Specify our global font size */
+          body {
+            font-size: ${baseFontSize * 100}%;
+          }
+        `;
+      }
     },
   };
 }

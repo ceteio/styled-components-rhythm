@@ -2,16 +2,24 @@
 
 ## [Unreleased][]
 
+- Correctly publish built files
+
 ## [4.1.0][] - 2021-11-09
+
+_Unpublished._
 
 - Add `defaultOutputType` to main rhythm creation function.
 
 ## [4.0.0][] - 2021-11-09
 
+_Unpublished._
+
 - Replace `theme.rhythmHeight` return value with `theme.rhythm.X`, where `.X` is
   the config used to setup the rhythm theme.
 
 ## [3.0.0][] - 2021-11-09
+
+_Unpublished._
 
 - Add `outputType` option to `setFontWithRhythm()` to optionally get object styles instead of string styles.
 - Add `global` is now a function: `global()` with a single option to get object styles instead of string styles.

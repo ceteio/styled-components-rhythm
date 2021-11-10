@@ -3,15 +3,22 @@
   "version": "4.1.0",
   "description": "Vertical Rhythm and Font Baselines with Styled Components",
   "main": "dist/index.js",
-  "umd:main": "index.umd.js",
-  "module": "index.m.js",
+  "umd:main": "dist/index.umd.js",
+  "module": "dist/index.m.js",
   "source": "src/index.js",
   "scripts": {
     "test": "echo \"No test specified\" && exit 0",
     "build": "microbundle",
     "dev": "microbundle watch",
-    "version": "version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
+    "version": "yarn build && version-changelog CHANGELOG.md && changelog-verify CHANGELOG.md && git add CHANGELOG.md"
   },
+  "files": [
+    "package.json",
+    "dist/",
+    "img",
+    "README.md",
+    "CHANGELOG.md"
+  ],
   "keywords": [
     "styled-components",
     "design",
